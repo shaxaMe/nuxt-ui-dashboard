@@ -15,4 +15,31 @@
   --color-green-800: #016538;
   --color-green-900: #0A5331;
   --color-green-950: #052E16;
+  
+  --color-primary-50:  #ebf8f4;
+  --color-primary-100: #c6efe1;
+  --color-primary-200: #9fe5cd;
+  --color-primary-300: #6ed9b4;
+  --color-primary-400: #3fcd99;
+  --color-primary-500: #00c180;   /* biroz engil variant */
+  --color-primary-600: #009f65;
+  --color-primary-700: #007b4c;
+  --color-primary-800: #005D32;   /* siz bergan asosiy rang */
+  --color-primary-900: #004527;
+  --color-primary-950: #002f1a;
+  --color-gray-50: #f9fafb;
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #e5e7eb;
+  --color-gray-300: #d1d5db;
+  --color-gray-400: #f5f6fa;
+  --color-gray-500: #d5d5d5;
+  --color-gray-600: #4b5563;
+  --color-gray-700: #374151;
+  --color-gray-800: #1f2937;
+  --color-gray-900: #111827;
+  --color-gray-950: #030712;
+  --color-purple:#8280FF;
+  --color-green:#4ad991;
+  --color-yellow:#FEC53D;
+  --color-orange:#FF9066;
 }

@@ -58,3 +58,12 @@ export interface Range {
   start: Date
   end: Date
 }
+
+export interface IStas {
+  id: number,
+  label: string,
+  amount: number,
+  icon: string,
+  color: string,
+  percent: number
+}

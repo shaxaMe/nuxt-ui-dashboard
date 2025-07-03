@@ -1,98 +1,95 @@
 <script setup lang="ts">
-import type { Period, Range, Stat } from '~/types'
-
+import type { Period, Range, IStas } from "~/types";
 const props = defineProps<{
-  period: Period
-  range: Range
-}>()
+  period: Period;
+  range: Range;
+}>();
 
-function formatCurrency(value: number): string {
-  return value.toLocaleString('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    maximumFractionDigits: 0
-  })
-}
-
-const baseStats = [{
-  title: 'Customers',
-  icon: 'i-lucide-users',
-  minValue: 400,
-  maxValue: 1000,
-  minVariation: -15,
-  maxVariation: 25
-}, {
-  title: 'Conversions',
-  icon: 'i-lucide-chart-pie',
-  minValue: 1000,
-  maxValue: 2000,
-  minVariation: -10,
-  maxVariation: 20
-}, {
-  title: 'Revenue',
-  icon: 'i-lucide-circle-dollar-sign',
-  minValue: 200000,
-  maxValue: 500000,
-  minVariation: -20,
-  maxVariation: 30,
-  formatter: formatCurrency
-}, {
-  title: 'Orders',
-  icon: 'i-lucide-shopping-cart',
-  minValue: 100,
-  maxValue: 300,
-  minVariation: -5,
-  maxVariation: 15
-}]
-
-const { data: stats } = await useAsyncData<Stat[]>('stats', async () => {
-  return baseStats.map((stat) => {
-    const value = randomInt(stat.minValue, stat.maxValue)
-    const variation = randomInt(stat.minVariation, stat.maxVariation)
-
-    return {
-      title: stat.title,
-      icon: stat.icon,
-      value: stat.formatter ? stat.formatter(value) : value,
-      variation
-    }
-  })
-}, {
-  watch: [() => props.period, () => props.range],
-  default: () => []
-})
+const statisticsItems: IStas[] = [
+  {
+    id: 1,
+    label: "Foydalanuvchilar",
+    amount: 1000,
+    icon: "icon-people",
+    color: "bg-purple/20",
+    percent: 5,
+  },
+  {
+    id: 2,
+    label: "Buyurtmalar",
+    amount: 10293,
+    icon: "icon-cub",
+    color: "bg-yellow/20",
+    percent: 1.3,
+  },
+  {
+    id: 3,
+    label: "Sotuvlar",
+    amount: 89000,
+    icon: "icon-line",
+    color: "bg-green/20",
+    percent: 1.3,
+  },
+  {
+    id: 4,
+    label: "Extimolliklar",
+    amount: 89000,
+    icon: "icon-clock",
+    color: "bg-orange/20",
+    percent: 1.3,
+  },
+];
 </script>
 
 <template>
-  <UPageGrid class="lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-px">
-    <UPageCard
-      v-for="(stat, index) in stats"
-      :key="index"
-      :icon="stat.icon"
-      :title="stat.title"
-      to="/customers"
-      variant="subtle"
-      :ui="{
-        container: 'gap-y-1.5',
-        wrapper: 'items-start',
-        leading: 'p-2.5 rounded-full bg-primary/10 ring ring-inset ring-primary/25 flex-col',
-        title: 'font-normal text-muted text-xs uppercase'
-      }"
-      class="lg:rounded-none first:rounded-l-lg last:rounded-r-lg hover:z-1"
+  <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 my-8">
+    <div
+      class="shadow-md bg-default px-4 py-3.5 flex flex-col rounded-2xl dark:bg-elevated"
+      v-for="item in statisticsItems"
     >
-      <div class="flex items-center gap-2">
-        <span class="text-2xl font-semibold text-highlighted">
-          {{ stat.value }}
-        </span>
-
-        <UBadge
-          :color="stat.variation > 0 ? 'success' : 'error'"
-          variant="subtle"
-          class="text-xs"
+      <div class="flex items-center justify-between gap-2">
+        <div class="flex flex-col gap-2.5">
+          <p>{{ item.label }}</p>
+          <UTooltip
+            :delay-duration="0"
+            :text="`${usePrice(item.amount)} so'm`"
+          >
+            <p
+              class="font-semibold text-3xl text-highlighted overflow-hidden line-clamp-1"
+            >
+              {{ usePrice(item.amount) }}
+            </p>
+          </UTooltip>
+        </div>
+        <div
+          class="w-14 h-14 p-3 flex items-center justify-center rounded-full"
+          :class="item.color"
         >
-          {{ stat.variation > 0 ? '+' : '' }}{{ stat.variation }}%
-        </UBadge>
+          <Icon class="!w-6 !h-6" :name="`${item.icon}`" />
+        </div>
       </div>
-    </UPageCard>
-  </UPageGrid>
+      <div class="flex items-center gap-2 mt-7">
+        <div>
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M16 6L18.29 8.29L13.41 13.17L9.41 9.17L2 16.59L3.41 18L9.41 12L13.41 16L19.71 9.71L22 12V6H16Z"
+              fill="#00B69B"
+            />
+          </svg>
+        </div>
+        <p class="text-sm text-muted">
+          <span class="font-semibold text-highlighted"
+            >{{ item.percent }}%</span
+          >
+          {{ props.period }}
+        </p>
+      </div>
+    </div>
+  </div>
 </template>
